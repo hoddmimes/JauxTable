@@ -40,7 +40,6 @@ public class TableTest extends JFrame implements Table.TableCallbackInterface
 
         TestObject to = new TestObject();
         to.mBoolValue = ((pIndex % 2) == 0) ? true : false;
-        to.mCheckBox = new JCheckBox("ON/OFF [" + pIndex + "]");
         to.mComboBox = new JComboBox( tChoiceList.toArray());
         to.mStrValue = new String("String [ " +pIndex +" ]" );
         to.mLongValue = (Long) (1000000L + pIndex);
@@ -79,15 +78,13 @@ public class TableTest extends JFrame implements Table.TableCallbackInterface
 
     public class TestObject
     {
-        @TableAttribute( header = "Check Box", column = 0, editable = true, preferedWidth = 70)
-        public JCheckBox            mCheckBox;
-        @TableAttribute( header = "Combo Box", column = 1, editable = true, preferedWidth = 80)
+        @TableAttribute( header = "Combo Box", column = 0, editable = true, preferedWidth = 80)
         public JComboBox<String>    mComboBox;
-        @TableAttribute( header = "Str Value", column = 2, editable = true, preferedWidth = 160)
+        @TableAttribute( header = "Str Value", column = 1, editable = true, preferedWidth = 160)
         public String               mStrValue;
-        @TableAttribute( header = "Bool Value", column = 3, editable = true, preferedWidth = 60)
+        @TableAttribute( header = "Bool Value", column = 2, editable = true, preferedWidth = 60)
         public boolean              mBoolValue;
-        @TableAttribute( header = "Long Value", column = 4, editable = true, preferedWidth = 60)
+        @TableAttribute( header = "Long Value", column = 3, editable = true, preferedWidth = 60)
         public long                 mLongValue;
     }
 

@@ -46,7 +46,9 @@ public class TableModel<T> extends AbstractTableModel
         return mTableColumnModel.getColumnCount();
     }
 
-
+    public List<T> getObjects() {
+        return this.mObjects;
+    }
 
     @Override
     public Object getValueAt(int pRow, int pCol) {
@@ -61,7 +63,7 @@ public class TableModel<T> extends AbstractTableModel
     @Override
     public boolean isCellEditable(int row, int column) {
 
-        if (row <= 0) {
+        if (row < 0) {
             return false;
         }
         return mTableAttributeHandle.getEditable( column );
@@ -71,7 +73,7 @@ public class TableModel<T> extends AbstractTableModel
 
     @Override
     public void setValueAt(Object pValue, int pRow, int pColumn ) {
-        //System.out.println("set value row: " + pRow + " col: " + pColumn + " class: " + pValue.getClass().getSimpleName());
+        System.out.println("set value row: " + pRow + " col: " + pColumn + " class: " + pValue.getClass().getSimpleName() + " value: " + pValue.toString());
 
         TableAttributeHandler.TableAttributeEnity ta =  mTableAttributeHandle.getAttributeEnity( pColumn );
         Class clz = ta.mField.getType();
@@ -79,12 +81,8 @@ public class TableModel<T> extends AbstractTableModel
 
         Object tModelObjectField= TableAttributeHandler.getFieldsObject( tModelObject, pColumn );
 
-        if (clz == JCheckBox.class) {
-            JCheckBox chkbox = (JCheckBox) tModelObjectField;
-            chkbox.setSelected( (boolean) pValue );
-        }
 
-        else if (clz == JComboBox.class) {
+        if (clz == JComboBox.class) {
             JComboBox cmbbox = (JComboBox) tModelObjectField;
             cmbbox.setActionCommand( (String) pValue);
         } else {
@@ -145,8 +143,9 @@ public class TableModel<T> extends AbstractTableModel
         if (clz == String.class) {
            return new DefaultCellEditor( new JTextField( (String) tModelObjectField ));
         }
-        if (clz == JCheckBox.class) {
-            JCheckBox chkbox = (JCheckBox) tModelObjectField;
+        if ((clz == Boolean.class) || (clz == boolean.class)) {
+            JCheckBox chkbox = new JCheckBox();
+            chkbox.setSelected( (boolean) tModelObjectField);
             return new DefaultCellEditor( chkbox );
         }
 
@@ -182,6 +181,7 @@ public class TableModel<T> extends AbstractTableModel
             super.setModelIndex( pIndex );
             super.setHeaderRenderer( mHeaderRender );
             super.setCellRenderer( mCellRenderer );
+
 
 
             mJustify = mTableAttributeHandle.getObjectJustify( pIndex );
@@ -226,9 +226,11 @@ public class TableModel<T> extends AbstractTableModel
                 return cb;
             }
 
-            if (pValue.getClass() == JCheckBox.class) {
+            if ((pValue.getClass() == Boolean.class) || (pValue.getClass() == Boolean.class)){
 
-                JCheckBox cb = (JCheckBox) pValue;
+                JCheckBox cb = new JCheckBox();
+                cb.setBackground( Color.WHITE );
+                cb.setSelected((boolean) pValue );
                 cb.setBorder( BorderFactory.createEmptyBorder(0, 10, 0, 10));
                 if (mTableAttributeHandle.getPreferredWidth(pCol) > 0) {
                     Dimension tDim = cb.getPreferredSize();

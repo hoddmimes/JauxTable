@@ -17,7 +17,6 @@ public class Table extends JScrollPane
         mTable = new ExtendedJTable();
         mTable.setAutoCreateColumnsFromModel(false);
         mTable.setModel( mTableModel );
-        mTable.setDefaultEditor(Object.class, new DefaultCellEditor(new JCheckBox()));
 
         mTable.setColumnModel( mTableModel.getTableColumnModel());
         mTable.setTableHeader( mTableModel.getTableHeader() );
